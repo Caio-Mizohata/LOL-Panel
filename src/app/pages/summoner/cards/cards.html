@@ -1,0 +1,131 @@
+@if (profile(); as player) {
+  <hlm-card
+    class="mx-auto flex h-full w-full max-w-md flex-col gap-5 rounded-2xl border-2 p-4 shadow-sm sm:gap-6 sm:rounded-3xl sm:p-6"
+    aria-label="Perfil do jogador"
+  >
+    <!-- Identificação -->
+    <header class="flex items-center gap-3 sm:gap-4">
+      @if (player.profileIconUrl; as iconUrl) {
+        <img
+          [ngSrc]="iconUrl"
+          [priority]="priority()"
+          width="88"
+          height="88"
+          alt="Ícone de perfil do jogador"
+          class="size-16 shrink-0 rounded-full border-4 border-white/80 object-cover shadow-sm sm:size-[88px]"
+        />
+      }
+      <div class="min-w-0 flex-1">
+        <h2 class="break-words text-xl font-bold leading-tight sm:text-2xl">
+          {{ player.account.gameName
+          }}<span class="font-normal text-muted-foreground">#{{ player.account.tagLine }}</span>
+        </h2>
+        <p class="mt-1 text-sm font-medium text-muted-foreground">
+          Nível {{ formatNumber(player.summoner.summonerLevel) }}
+        </p>
+      </div>
+    </header>
+
+    <!-- Ranks -->
+    <dl class="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2" aria-label="Rank do jogador">
+      @for (queue of rankedQueues(); track queue.queueType) {
+        <div
+          class="flex flex-col items-center gap-2 rounded-2xl border bg-muted/20 px-3 py-4 text-center"
+        >
+          <dt class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {{ queue.label }}
+          </dt>
+          <dd class="flex w-full min-w-0 flex-1 flex-col items-center gap-1">
+            @if (queue.entry; as rank) {
+              @if (queue.emblemUrl; as emblemUrl) {
+                <img
+                  [ngSrc]="emblemUrl"
+                  width="80"
+                  height="80"
+                  [alt]="queue.emblemAlt"
+                  [title]="queue.emblemAlt + ' ' + rank.rank"
+                  class="size-16 shrink-0 object-contain sm:size-20"
+                />
+              } @else {
+                <span class="flex h-16 items-center text-sm font-semibold sm:h-20">
+                  {{ rank.tier }}
+                </span>
+              }
+
+              <span class="text-sm font-semibold" [attr.aria-label]="'Divisão ' + rank.rank">
+                {{ queue.emblemAlt ? queue.emblemAlt.slice(4) : rank.tier }} {{ rank.rank }}
+              </span>
+
+              <dl
+                class="mt-2 grid w-full grid-cols-2 gap-2 border-t pt-2 text-xs"
+                [attr.aria-label]="'Estatísticas de ' + queue.label"
+              >
+                <div class="min-w-0">
+                  <dt class="text-muted-foreground">Vitórias</dt>
+                  <dd class="mt-1 break-words font-semibold tabular-nums">
+                    {{ formatNumber(rank.wins) }}
+                  </dd>
+                </div>
+                <div class="min-w-0">
+                  <dt class="text-muted-foreground">Derrotas</dt>
+                  <dd class="mt-1 break-words font-semibold tabular-nums">
+                    {{ formatNumber(rank.losses) }}
+                  </dd>
+                </div>
+              </dl>
+            } @else {
+              <span class="flex h-16 items-center text-sm text-muted-foreground sm:h-20">
+                {{ queue.unavailable ? 'Indisponível' : 'Sem classificação' }}
+              </span>
+            }
+          </dd>
+        </div>
+      }
+    </dl>
+
+    <!-- Maestria -->
+    <section class="flex flex-col gap-3" aria-label="Maestria de campeões">
+      <h3 class="text-center text-base font-semibold sm:text-lg">Maestria de campeões</h3>
+
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        @for (champion of topMasteries(); track champion.championId) {
+          <div
+            class="flex min-w-0 flex-col items-center gap-2 rounded-2xl border-2 border-muted bg-card px-1.5 py-3 shadow-sm sm:px-2 sm:py-4"
+          >
+            @if (champion.championIconUrl; as iconUrl) {
+              <img
+                [ngSrc]="iconUrl"
+                width="64"
+                height="64"
+                alt=""
+                class="size-12 rounded-full border-2 border-muted object-cover sm:size-16"
+              />
+            } @else {
+              <div class="size-12 rounded-full bg-muted sm:size-16"></div>
+            }
+            <span class="text-base font-bold leading-none sm:text-lg">{{ $index + 1 }}º</span>
+            <div class="text-center leading-tight">
+              <p class="text-xs font-bold tabular-nums sm:text-sm">
+                {{ formatNumber(champion.championPoints) }}
+              </p>
+              <p class="text-[10px] uppercase tracking-wider text-muted-foreground">pontos</p>
+            </div>
+          </div>
+        } @empty {
+          <div
+            class="col-span-3 rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground"
+          >
+            Nenhuma maestria disponível.
+          </div>
+        }
+      </div>
+    </section>
+
+    <a
+      href=""
+      class="mt-auto self-center rounded-sm text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+    >
+      Ver perfil
+    </a>
+  </hlm-card>
+}
