@@ -10,6 +10,10 @@ Spartan UI. Os dados vêm da API da Riot Games e as imagens de campeões e perfi
 vêm do Data Dragon. As consultas de invocadores, classificações e maestrias estão
 configuradas para o servidor brasileiro (**BR1**).
 
+## Projeto feito exclusivamente para uso pessoal e privado para uma comunidade específica.
+
+Este projeto não tem fins lucrativos, não tem vinculo com a Riot Games ou qualquer outra empresa. Ele é apenas um painel para acompanhar o desempenho dos jogadores. Mas seu uso para fins de testes e desenvolvimento é permitido.
+
 ## Requisitos
 
 - Node.js compatível com os pacotes Angular instalados: `^22.22.3`, `^24.15.0`
