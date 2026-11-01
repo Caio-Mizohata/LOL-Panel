@@ -116,7 +116,7 @@ comitá-los, mas não os mantém secretos para quem acessa a aplicação.
 
 ## Executar e usar a aplicação
 
-Depois de configurar os arquivos locais e resolver a importação ausente do DTO:
+Depois de configurar os arquivos locais:
 
 ```bash
 npm start
@@ -168,7 +168,7 @@ para o destino correspondente:
 | --------------------------------------------------- | -------------------------- | ----------------------------- |
 | `/api/riot/accounts/by-riot-id/{nome}/{tag}`        | Account-V1, `americas`     | Remove parâmetros             |
 | `/api/riot/accounts/by-puuid/{puuid}`               | Account-V1, `americas`     | Remove parâmetros             |
-| `/api/riot/summoners/by-puuid/{puuid}`              | Summoner-V4, `br1`         | Remove parâmetros; aplica DTO |
+| `/api/riot/summoners/by-puuid/{puuid}`              | Summoner-V4, `br1`         | Remove parâmetros             |
 | `/api/riot/league/entries/by-puuid/{puuid}`         | League-V4, `br1`           | Remove parâmetros             |
 | `/api/riot/champion-masteries/by-puuid/{puuid}/top` | Champion-Mastery-V4, `br1` | Fixa `count=3`                |
 | `/api/riot/match/v5/matches/by-puuid/{puuid}/ids`   | Match-V5, `americas`       | Preserva filtros e paginação  |
@@ -177,11 +177,10 @@ Não existe encaminhamento genérico para todos os caminhos `/api/riot`.
 O timeout do proxy é de 10 segundos e as respostas encaminhadas recebem
 `Cache-Control: no-store`.
 
-A configuração prevê um exemplo de DTO apenas na rota de invocador. Após
-restaurar o módulo indicado no início deste documento, essa rota retorna somente
-`profileIconId`, `revisionDate` e `summonerLevel`. Erros da Riot mantêm o status e
-os dados de erro. As demais rotas não filtram os campos no servidor; a seleção
-feita no serviço Angular não remove campos da resposta original na aba Network.
+A rota de invocador retorna somente `profileIconId`, `revisionDate` e
+`summonerLevel`. Erros da Riot mantêm o status e os dados de erro. As demais
+rotas não filtram os campos no servidor; a seleção feita no serviço Angular
+não remove campos da resposta original na aba Network.
 
 As imagens e o catálogo do Data Dragon são consultados diretamente pelo navegador,
 sem a chave de API. Os emblemas ranqueados são arquivos locais em `public/ranks/`;
@@ -207,8 +206,6 @@ npm run ng -- generate component components/meu-componente
 Os testes Angular utilizam mocks para as chamadas HTTP e não precisam de uma
 chave Riot válida. O arquivo local de PUUIDs precisa existir, mas pode conter
 um array vazio. Não há uma suíte de testes de ponta a ponta configurada.
-
-
 
 O proxy do Angular CLI funciona em `ng serve`; ele não é incluído no build.
 Publicar apenas os arquivos estáticos não fornece a API necessária aos cards.
