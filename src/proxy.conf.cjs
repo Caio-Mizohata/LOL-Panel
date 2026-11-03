@@ -1,7 +1,6 @@
 const { resolve } = require('node:path');
 const { config } = require('dotenv');
 const { gunzipSync, inflateSync, brotliDecompressSync } = require('node:zlib');
-const { toSummonerDto } = require('./server/dtos/summoner.dto.cjs');
 
 // Proxy do servidor de desenvolvimento do Angular CLI: encaminha as chamadas
 // /api/riot para a Riot e adiciona a chave de API no servidor, sem enviá-la ao navegador.
@@ -127,7 +126,6 @@ module.exports = {
   '^/api/riot/summoners/by-puuid/[^/?]+(?:\\?.*)?$': riotProxy(
     'https://br1.api.riotgames.com',
     (path) => path.split('?')[0].replace('/api/riot/summoners/', '/lol/summoner/v4/summoners/'),
-    toSummonerDto,
   ),
   // Maestrias: usa BR1 e substitui a consulta por count=3, limitando o resultado.
   '^/api/riot/champion-masteries/by-puuid/[^/?]+/top(?:\\?.*)?$': riotProxy(
