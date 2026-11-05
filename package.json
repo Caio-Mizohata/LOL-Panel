@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test:proxy": "node --test tests/riot-proxy.test.cjs"
+    "test": "ng test"
   },
   "private": true,
   "packageManager": "npm@11.11.0",
@@ -22,8 +21,6 @@
     "@ng-icons/core": ">=32.0.0 <34.0.0",
     "@ng-icons/lucide": ">=32.0.0 <34.0.0",
     "@spartan-ng/brain": "^1.4.1",
-    "@tanstack/angular-charts": "0.16.0",
-    "@tanstack/charts": "0.16.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
