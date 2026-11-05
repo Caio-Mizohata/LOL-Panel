@@ -124,7 +124,7 @@ export class Riot {
   getMatchesByPuuid(puuid: string, queue: 420 | 440): Observable<RiotMatchIds> {
     return this.http.get<RiotMatchIds>(
       `${this.baseUrl}/match/v5/matches/by-puuid/${encodeURIComponent(puuid)}/ids`,
-      { params: { queue: queue, type: 'ranked', start: 0, count: 40 } },
+      { params: { queue: queue, type: 'ranked', start: 0, count: 10 } },
     );
   }
 

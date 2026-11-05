@@ -78,9 +78,33 @@ export interface RiotMatchData {
   };
 }
 
-export interface SummonerCardState {
-  puuid: string;
-  profile: RiotPlayerProfile | null;
-  loading: boolean;
-  error: string | null;
+export type QueueId = 'solo' | 'flex';
+export type MatchResult = 'V' | 'D';
+
+export interface MatchHistoryItem {
+  result: MatchResult;
+  championName: string;
+  championIconUrl: string;
+}
+
+export interface ChampionStats {
+  name: string;
+  championIconUrl?: string | null;
+  games: number;
+  wins: number;
+  losses: number;
+  winrate: number;
+  kda: string;
+}
+
+export interface QueueStats {
+  rank: string;
+  winrate: number;
+  wins: number;
+  losses: number;
+  recentSummary: string;
+  matches: readonly MatchHistoryItem[];
+  kpis: readonly { label: string; value: string; detail: string }[];
+  champions: readonly ChampionStats[];
+  positions: readonly { name: string; winrate: number }[];
 }

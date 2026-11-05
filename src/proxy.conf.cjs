@@ -107,6 +107,11 @@ module.exports = {
     'https://americas.api.riotgames.com',
     (path) => path.replace('/api/riot/match/v5/', '/lol/match/v5/'),
   ),
+  // Detalhes de uma partida específica: usa Americas, sem parâmetros de consulta.
+  '^/api/riot/match/v5/matches/(?!by-puuid/)[^/?]+(?:\\?.*)?$': riotProxy(
+    'https://americas.api.riotgames.com',
+    (path) => path.split('?')[0].replace('/api/riot/match/v5/', '/lol/match/v5/'),
+  ),
   // Classificações ranqueadas: usa BR1 e remove os parâmetros de consulta.
   '^/api/riot/league/entries/by-puuid/[^/?]+(?:\\?.*)?$': riotProxy(
     'https://br1.api.riotgames.com',
@@ -121,7 +126,6 @@ module.exports = {
     'https://americas.api.riotgames.com',
     (path) => path.split('?')[0].replace('/api/riot/accounts/', '/riot/account/v1/accounts/'),
   ),
-  // Exemplo de DTO: apenas esta rota filtra os campos da resposta no servidor.
   // Usa BR1 e remove os parâmetros de consulta.
   '^/api/riot/summoners/by-puuid/[^/?]+(?:\\?.*)?$': riotProxy(
     'https://br1.api.riotgames.com',
