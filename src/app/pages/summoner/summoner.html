@@ -1,138 +1,83 @@
 <section
-  class="mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-6xl flex-col items-center justify-center px-2 py-4 sm:px-6 lg:px-8"
-  aria-label="Cards de amigos"
+  class="mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-6xl flex-col items-center px-4 py-8 sm:px-6 lg:px-8"
+  aria-labelledby="search-title"
 >
-  @if (cards().length > 0) {
-    <div class="relative w-full flex flex-col items-center gap-4">
-      <!-- Trilho e Controles Laterais do Carousel -->
-      <div class="relative w-full flex items-center justify-center">
-        <!-- Botão Anterior (Desktop) -->
-        @if (scrollPositions().length > 1) {
-          <button
-            type="button"
-            (click)="scrollPrev()"
-            [disabled]="!canScrollPrev()"
-            aria-label="Card anterior"
-            class="hidden sm:inline-flex items-center justify-center absolute -left-2 md:-left-4 z-20 size-10 rounded-full border shadow-md bg-background/90 backdrop-blur-sm transition-all disabled:opacity-30 disabled:pointer-events-none hover:bg-accent cursor-pointer"
-          >
-            <ng-icon name="lucideChevronLeft" class="size-5" />
-          </button>
-        }
+  <div class="w-full max-w-2xl">
+    <h1 id="search-title" class="text-center text-2xl font-bold sm:text-3xl">Buscar jogador</h1>
+    <p class="mt-2 text-center text-sm text-muted-foreground sm:text-base">
+      Digite o nome do jogador e a tagline para consultar um perfil.
+    </p>
 
-        <!-- Trilho Horizontal do Carousel -->
-        <div
-          #carousel
-          (scroll)="updateScrollState()"
-          class="flex w-full items-stretch gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-4 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          tabindex="0"
-          role="region"
-          aria-label="Carrossel de perfis de invocadores"
-        >
-          @for (card of cards(); track card.puuid) {
-            <div class="w-[320px] min-[420px]:w-[360px] sm:w-[380px] shrink-0 snap-center flex justify-center">
-              @if (card.loading) {
-                <div
-                  class="flex h-full min-h-[460px] w-full flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-muted/80 bg-muted/10 p-6 text-center"
-                  aria-live="polite"
-                >
-                  <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-                  <p class="text-sm font-medium text-muted-foreground">Carregando invocador…</p>
-                  <p class="font-mono text-[11px] text-muted-foreground/60 break-all max-w-[200px] truncate">
-                    <!-- {{ card.puuid }} -->
-                  </p>
-                </div>
-              } @else if (card.error) {
-                <div
-                  class="flex h-full min-h-[460px] w-full flex-col items-center justify-center gap-2 rounded-3xl border border-destructive/40 bg-destructive/10 p-6 text-center"
-                  role="alert"
-                >
-                  <span class="text-xl">⚠️</span>
-                  <p class="text-sm font-semibold text-destructive">Falha ao carregar perfil</p>
-                  <p class="text-xs text-muted-foreground">{{ card.error }}</p>
-                  <p class="mt-2 font-mono text-[10px] text-muted-foreground/70 break-all max-w-[220px]">
-                    <!-- {{ card.puuid }} -->
-                  </p>
-                </div>
-              } @else if (card.profile) {
-                <!-- Até três perfis podem aparecer na área inicial do carrossel no desktop. -->
-                <app-cards [profile]="card.profile" [priority]="$index < 3" class="w-full h-full" />
-              }
-            </div>
-          }
-        </div>
-
-        <!-- Botão Próximo (Desktop) -->
-        @if (scrollPositions().length > 1) {
-          <button
-            type="button"
-            (click)="scrollNext()"
-            [disabled]="!canScrollNext()"
-            aria-label="Próximo card"
-            class="hidden sm:inline-flex items-center justify-center absolute -right-2 md:-right-4 z-20 size-10 rounded-full border shadow-md bg-background/90 backdrop-blur-sm transition-all disabled:opacity-30 disabled:pointer-events-none hover:bg-accent cursor-pointer"
-          >
-            <ng-icon name="lucideChevronRight" class="size-5" />
-          </button>
-        }
-      </div>
-
-      <!-- Controles Inferiores (Mobile e Dots) -->
-      @if (scrollPositions().length > 1) {
-        <div class="flex items-center justify-center gap-3 pt-2">
-          <!-- Botão anterior no mobile -->
-          <button
-            type="button"
-            (click)="scrollPrev()"
-            [disabled]="!canScrollPrev()"
-            aria-label="Card anterior"
-            class="sm:hidden flex items-center justify-center size-8 rounded-full border bg-background transition-all disabled:opacity-30 cursor-pointer"
-          >
-            <ng-icon name="lucideChevronLeft" class="size-4" />
-          </button>
-
-          <!-- Dots Indicadores de Paginação -->
-          <div class="flex items-center gap-1.5" role="group" aria-label="Posições do carrossel">
-            @for (position of scrollPositions(); track position; let i = $index) {
-              <button
-                type="button"
-                (click)="scrollToIndex(i)"
-                [attr.aria-current]="activeIndex() === i ? 'true' : null"
-                [attr.aria-label]="'Ir para posição ' + (i + 1)"
-                class="h-2 rounded-full transition-all cursor-pointer"
-                [class.w-6]="activeIndex() === i"
-                [class.bg-primary]="activeIndex() === i"
-                [class.w-2]="activeIndex() !== i"
-                [class.bg-muted-foreground/30]="activeIndex() !== i"
-                [class.hover:bg-muted-foreground/50]="activeIndex() !== i"
-              ></button>
-            }
-          </div>
-
-          <!-- Botão próximo no mobile -->
-          <button
-            type="button"
-            (click)="scrollNext()"
-            [disabled]="!canScrollNext()"
-            aria-label="Próximo card"
-            class="sm:hidden flex items-center justify-center size-8 rounded-full border bg-background transition-all disabled:opacity-30 cursor-pointer"
-          >
-            <ng-icon name="lucideChevronRight" class="size-4" />
-          </button>
-        </div>
-      }
-    </div>
-  } @else {
-    <div
-      class="flex max-w-md flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-muted/80 bg-muted/10 p-8 text-center"
+    <form
+      class="mt-6 flex w-full flex-col gap-3 sm:flex-row"
+      (submit)="$event.preventDefault(); searchPlayer(gameName.value, tagLine.value)"
     >
-      <span class="text-3xl">👥</span>
-      <h2 class="text-lg font-bold">Nenhum perfil configurado</h2>
-      <p class="text-sm text-muted-foreground">
-        Adicione os PUUIDs dos seus amigos em
-        <code class="rounded bg-muted px-1.5 py-0.5 text-xs font-mono text-foreground font-semibold">
-          summoner.puuids.local.ts
-        </code>
-        para visualizar os cards no carrossel.
-      </p>
-    </div>
-  }
+      <div class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_6rem] gap-3">
+        <div>
+          <label for="game-name" class="sr-only">Nome do jogador</label>
+          <input
+            #gameName
+            id="game-name"
+            name="gameName"
+            type="search"
+            required
+            maxlength="100"
+            autocomplete="off"
+            placeholder="Nome do jogador"
+            class="h-11 w-full rounded-md border border-input bg-background px-4 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
+            [disabled]="loading()"
+          />
+        </div>
+        <div>
+          <label for="tag-line" class="sr-only">Tagline</label>
+          <input
+            #tagLine
+            id="tag-line"
+            name="tagLine"
+            type="search"
+            required
+            maxlength="20"
+            autocomplete="off"
+            placeholder="BR1"
+            aria-describedby="riot-id-hint"
+            class="h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
+            [disabled]="loading()"
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50"
+        [disabled]="loading()"
+      >
+        {{ loading() ? 'Buscando…' : 'Buscar perfil' }}
+      </button>
+    </form>
+    <p id="riot-id-hint" class="mt-2 text-xs text-muted-foreground">
+      Exemplo: Nome do jogador &nbsp; BR1
+    </p>
+  </div>
+
+  <div class="mt-8 flex w-full justify-center" aria-live="polite">
+    @if (loading()) {
+      <div
+        class="flex min-h-48 w-full max-w-md flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-muted bg-muted/10 p-8 text-center"
+      >
+        <div
+          class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"
+        ></div>
+        <p class="text-sm font-medium text-muted-foreground">Carregando perfil…</p>
+      </div>
+    } @else if (error(); as errorMessage) {
+      <div
+        class="w-full max-w-md rounded-2xl border border-destructive/40 bg-destructive/10 p-5 text-center"
+        role="alert"
+      >
+        <p class="font-semibold text-destructive">Não foi possível buscar o jogador</p>
+        <p class="mt-1 text-sm text-muted-foreground">{{ errorMessage }}</p>
+      </div>
+    } @else if (profile(); as player) {
+      <app-cards [profile]="player" [priority]="true" class="w-full max-w-md" />
+    }
+  </div>
 </section>

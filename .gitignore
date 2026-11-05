@@ -47,6 +47,3 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-
-# Lista local de jogadores
-/src/app/pages/summoner/summoner.puuids.local.ts

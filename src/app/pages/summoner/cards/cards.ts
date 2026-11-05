@@ -1,13 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HlmCardImports } from '@spartan-ng/helm/card';
 import { RiotPlayerProfile, RiotRank } from '../../../models/riot.models';
 
 @Component({
   selector: 'app-cards',
-  imports: [HlmCardImports, NgOptimizedImage],
+  imports: [HlmCardImports, NgOptimizedImage, RouterLink],
   templateUrl: './cards.html',
-  styleUrl: './cards.css',
 })
 export class Cards {
   readonly profile = input<RiotPlayerProfile | null>(null);
