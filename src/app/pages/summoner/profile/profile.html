@@ -4,6 +4,7 @@
 >
   <a
     routerLink="/"
+    [replaceUrl]="true"
     class="w-fit text-sm font-medium text-primary no-underline hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     aria-label="Voltar aos jogadores"
   >
@@ -74,7 +75,7 @@
           class="items-center gap-4 overflow-hidden rounded-2xl border bg-card p-6 [--card-spacing:1.5rem] max-[900px]:min-h-[17.3125rem] max-[560px]:p-4"
         >
           <div class="flex w-full items-center justify-between gap-4 max-[560px]:items-start">
-            <h2 class="m-0 text-base font-semibold text-foreground">Winrate</h2>
+            <h2 class="m-0 text-base font-semibold text-foreground">Taxa de vitória</h2>
             <span class="whitespace-nowrap text-[.8125rem] font-medium text-muted-foreground">
               {{ stats.rank }}
             </span>
@@ -88,7 +89,7 @@
             <strong class="relative z-10 text-4xl leading-[1.1] text-foreground">
               {{ stats.winrate }}%
             </strong>
-            <span class="relative z-10 text-xs font-medium text-muted-foreground">winrate</span>
+            <!-- <span class="relative z-10 text-xs font-medium text-muted-foreground">winrate</span> -->
           </div>
 
           <div
@@ -176,7 +177,7 @@
           class="gap-4 overflow-hidden rounded-2xl border bg-card p-6 [--card-spacing:1.5rem] max-[560px]:p-4"
         >
           <div class="flex items-center justify-between gap-4 max-[560px]:items-start">
-            <h2 class="m-0 text-base font-semibold text-foreground">Winrate por campeão</h2>
+            <h2 class="m-0 text-base font-semibold text-foreground">Taxa de vitória por campeão</h2>
             <span class="whitespace-nowrap text-[.8125rem] font-medium text-muted-foreground">
               Top 5 mais jogados
             </span>
@@ -192,7 +193,7 @@
                   </th>
                   <th hlmTh class="text-right text-xs font-medium text-muted-foreground">V/D</th>
                   <th hlmTh class="text-right text-xs font-medium text-muted-foreground">
-                    Winrate
+                    Taxa de vitória (%)
                   </th>
                   <th hlmTh class="text-right text-xs font-medium text-muted-foreground">
                     K / D / A
@@ -255,7 +256,7 @@
           class="gap-4 overflow-hidden rounded-2xl border bg-card p-6 [--card-spacing:1.5rem] max-[560px]:p-4"
         >
           <div class="flex items-center justify-between gap-4 max-[560px]:items-start">
-            <h2 class="m-0 text-base font-semibold text-foreground">Winrate por posição</h2>
+            <h2 class="m-0 text-base font-semibold text-foreground">Taxa de vitória por posição</h2>
             <span class="whitespace-nowrap text-[.8125rem] font-medium text-muted-foreground">
               Por função
             </span>

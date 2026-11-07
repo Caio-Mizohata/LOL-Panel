@@ -1,7 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { provideRouter, RouterLink } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { Riot } from '../../../services/riot';
 import { Profile } from './profile';
@@ -57,6 +58,15 @@ describe('Profile', () => {
   it('should switch ranked queue stats', () => {
     component.selectQueue('flex');
     expect(component.activeQueue()).toBe('flex');
+  });
+
+  it('substitui o perfil no histórico ao voltar para os jogadores', () => {
+    fixture.detectChanges();
+
+    const backLink = fixture.debugElement.query(By.directive(RouterLink)).injector.get(RouterLink);
+
+    expect(backLink.urlTree?.toString()).toBe('/');
+    expect(backLink.replaceUrl).toBe(true);
   });
 
   it('should render player details when profile is loaded by puuid', async () => {

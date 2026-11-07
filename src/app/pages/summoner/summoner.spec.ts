@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { RiotPlayerProfile } from '../../models/riot.models';
 import { Riot } from '../../services/riot';
+import { SummonerCache } from '../../services/cache/summoner-cache';
 import { Summoner } from './summoner';
 
 const profile: RiotPlayerProfile = {
@@ -56,5 +57,23 @@ describe('Summoner', () => {
     expect(fixture.nativeElement.querySelector('[role="alert"]')?.textContent).toContain(
       'nome do jogador e a tagline',
     );
+  });
+
+  it('preserva o card quando o componente da busca é recriado', () => {
+    component.searchPlayer('Jogador Teste', 'BR1');
+    fixture.destroy();
+
+    const newFixture = TestBed.createComponent(Summoner);
+    newFixture.detectChanges();
+
+    expect(TestBed.inject(SummonerCache).profile()).toEqual(profile);
+    expect(newFixture.componentInstance.profile()).toEqual(profile);
+    expect(newFixture.nativeElement.querySelector('app-cards')).toBeTruthy();
+
+    const inputs = (newFixture.nativeElement as HTMLElement).querySelectorAll<HTMLInputElement>(
+      'input[type="search"]',
+    );
+    expect(inputs[0]?.value).toBe('Jogador Teste');
+    expect(inputs[1]?.value).toBe('BR1');
   });
 });
