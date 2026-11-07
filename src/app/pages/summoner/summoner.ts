@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { RiotPlayerProfile } from '../../models/riot.models';
 import { Riot } from '../../services/riot';
+import { SummonerCache } from '../../services/cache/summoner-cache';
 import { Cards } from './cards/cards';
 
 @Component({
@@ -14,8 +14,11 @@ import { Cards } from './cards/cards';
 export class Summoner {
   private readonly riot = inject(Riot);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cache = inject(SummonerCache);
 
-  readonly profile = signal<RiotPlayerProfile | null>(null);
+  readonly profile = this.cache.profile;
+  readonly searchedGameName = this.cache.gameName;
+  readonly searchedTagLine = this.cache.tagLine;
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
@@ -31,6 +34,8 @@ export class Summoner {
       return;
     }
 
+    this.searchedGameName.set(gameName);
+    this.searchedTagLine.set(tagLine);
     this.loading.set(true);
     this.profile.set(null);
     this.error.set(null);
